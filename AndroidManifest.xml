@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         
-        <receiver android:process=":remote" android:name="Alarm"/>
+        <service android:name=".SendMessageActivity" />
+        
     </application>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
