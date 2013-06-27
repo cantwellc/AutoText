@@ -36,9 +36,6 @@ public class MainActivity extends Activity {
 		txtPhoneNo = (EditText) findViewById(R.id.txtPhoneNo);
 		txtMessage = (EditText) findViewById(R.id.txtMessage);
 		timePicker = (TimePicker) findViewById(R.id.timePicker);
-		
-		selectedHour = timePicker.getCurrentHour();
-		selectedMinute = timePicker.getCurrentMinute();
 
 		btnSendSMS.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
