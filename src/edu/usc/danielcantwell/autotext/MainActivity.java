@@ -32,33 +32,41 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// Instantiate button, edittexts, and timepicker
 		btnSendSMS = (Button) findViewById(R.id.btnSendSMS);
 		txtPhoneNo = (EditText) findViewById(R.id.txtPhoneNo);
 		txtMessage = (EditText) findViewById(R.id.txtMessage);
 		timePicker = (TimePicker) findViewById(R.id.timePicker);
 
+		// Button on click listener
 		btnSendSMS.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				
+				// Get time from timePicker
 				selectedHour = timePicker.getCurrentHour();
 				selectedMinute = timePicker.getCurrentMinute();
 				
+				// Set the wanted time in milliseconds
 				long selectedTime = (selectedHour * 3600000) + (selectedMinute * 60000);
 				
+				// Calendar to get current time
 				Calendar c = Calendar.getInstance();
 				c.setTimeInMillis(System.currentTimeMillis());
 				c.add(Calendar.SECOND, 20);
 				
+				// Get text from txtPhoneNo and txtMessage EditText
 				phoneNo = txtPhoneNo.getText().toString();
 				message = txtMessage.getText().toString();
 				
+				// If there is a phone number and a message
 				if (phoneNo.length() > 0 && message.length() > 0) {
 					
+					// Create new Intent to start SendMessageActivity service
 					Intent myIntent = new Intent(MainActivity.this, SendMessageActivity.class);
 					PendingIntent pi = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
 					
+					// Create an AlarmManager to start the Intent at a certain time
 					AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-					
 					alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
 					
 					Toast.makeText(MainActivity.this, "Alarm Set", Toast.LENGTH_LONG).show();
