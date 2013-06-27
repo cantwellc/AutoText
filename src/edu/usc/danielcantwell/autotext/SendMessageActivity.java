@@ -30,7 +30,8 @@ public class SendMessageActivity extends Service {
 		sendSMS(phoneNo, message);
 
 		Intent i = new Intent(SendMessageActivity.this, MainActivity.class);
-		startActivity(i);
+		i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		SendMessageActivity.startActivity(i);
 	}
 
 	private void sendSMS(String phoneNumber, String message) {
