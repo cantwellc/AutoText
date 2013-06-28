@@ -47,14 +47,14 @@ public class MainActivity extends Activity {
 				
 				Calendar c = Calendar.getInstance();
 				c.setTimeInMillis(System.currentTimeMillis());
-				c.add(Calendar.SECOND, 20);
+				c.add(Calendar.SECOND, 10);
 				
 				phoneNo = txtPhoneNo.getText().toString();
 				message = txtMessage.getText().toString();
 				
 				if (phoneNo.length() > 0 && message.length() > 0) {
 					
-					Intent myIntent = new Intent(MainActivity.this, SendMessageActivity.class);
+					Intent myIntent = new Intent(MainActivity.this, SendMessage.class);
 					PendingIntent pi = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
 					
 					AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
