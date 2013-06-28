@@ -35,10 +35,8 @@ public class SendMessage extends Service {
 
 		sendSMS(phoneNo, message);
 
-		//Intent i = new Intent(SendMessage.this, MainActivity.class);
-		//i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		//startActivity(i);
-
+		stopSelf();
+		
 		return super.onStartCommand(intent, flags, startId);
 	}
 

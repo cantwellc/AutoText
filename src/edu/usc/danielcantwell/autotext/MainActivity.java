@@ -33,8 +33,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		btnSendSMS = (Button) findViewById(R.id.btnSendSMS);
-		txtPhoneNo = (EditText) findViewById(R.id.txtPhoneNo);
-		txtMessage = (EditText) findViewById(R.id.txtMessage);
 		timePicker = (TimePicker) findViewById(R.id.timePicker);
 
 		btnSendSMS.setOnClickListener(new View.OnClickListener() {
@@ -43,11 +41,13 @@ public class MainActivity extends Activity {
 				selectedHour = timePicker.getCurrentHour();
 				selectedMinute = timePicker.getCurrentMinute();
 				
-				long selectedTime = (selectedHour * 3600000) + (selectedMinute * 60000);
+				Calendar time = Calendar.getInstance();
+				time.set(Calendar.HOUR_OF_DAY, selectedHour);
+				time.set(Calendar.MINUTE, selectedMinute);
+				time.set(Calendar.SECOND, 0);
 				
-				Calendar c = Calendar.getInstance();
-				c.setTimeInMillis(System.currentTimeMillis());
-				c.add(Calendar.SECOND, 10);
+				txtPhoneNo = (EditText) findViewById(R.id.txtPhoneNo);
+				txtMessage = (EditText) findViewById(R.id.txtMessage);
 				
 				phoneNo = txtPhoneNo.getText().toString();
 				message = txtMessage.getText().toString();
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 					
 					AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 					
-					alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
+					alarmManager.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pi);
 					
 					Toast.makeText(MainActivity.this, "Alarm Set", Toast.LENGTH_LONG).show();
 					
