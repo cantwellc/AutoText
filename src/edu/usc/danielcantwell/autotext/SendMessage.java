@@ -20,10 +20,13 @@ import edu.usc.danielcantwell.autotext.MainActivity;
  */
 
 public class SendMessage extends Service {
-
+	
+	int serviceCount = MainActivity.serviceCount;
+	
 	// Get the Phone Number and Message from the main activity
 	String phoneNo = MainActivity.phoneNo;
-	String message = MainActivity.message;
+	String message = MainActivity.message;;
+	
 
 	@Override // When this Service is first called
 	public void onCreate() {
@@ -47,7 +50,7 @@ public class SendMessage extends Service {
 	private void sendSMS(String phoneNumber, String message) {
 		
 		// Create a PendingIntent for SmsManager
-		PendingIntent pi = PendingIntent.getActivity(this, 0,
+		PendingIntent pi = PendingIntent.getActivity(this, serviceCount,
 				new Intent(this, SendMessage.class), 0);
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(phoneNo, null, message, pi, null);

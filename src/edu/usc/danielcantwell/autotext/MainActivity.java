@@ -5,7 +5,10 @@
  */
 package edu.usc.danielcantwell.autotext;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -30,12 +33,17 @@ public class MainActivity extends Activity {
 	EditText txtPhoneNo;
 	EditText txtMessage;
 	TimePicker timePicker;
-
+	
+	//public static List<String> numbers = new ArrayList<String>();
+	//public static List<String> messages = new ArrayList<String>();
+	
 	public static int selectedHour;
 	public static int selectedMinute;
 	
 	public static String phoneNo;
 	public static String message;
+	
+	public static int serviceCount = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +74,21 @@ public class MainActivity extends Activity {
 				phoneNo = txtPhoneNo.getText().toString();
 				message = txtMessage.getText().toString();
 				
+				//numbers.add(phoneNo);
+				//messages.add(message);
+				
 				// The Phone Number and Message must have content
 				if (phoneNo.length() > 0 && message.length() > 0) {
 					
 					// Creating the Pending Intent
 					Intent myIntent = new Intent(MainActivity.this, SendMessage.class);
-					PendingIntent pi = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
+					PendingIntent pi = PendingIntent.getService(MainActivity.this, serviceCount, myIntent, 0);
 					
 					// Creating the AlarmManager
 					AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 					alarmManager.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pi);
+					
+					serviceCount++;
 					
 					Toast.makeText(MainActivity.this, "Alarm Set", Toast.LENGTH_LONG).show();
 					
