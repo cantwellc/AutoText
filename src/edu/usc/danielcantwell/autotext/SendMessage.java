@@ -9,10 +9,11 @@ package edu.usc.danielcantwell.autotext;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
-import edu.usc.danielcantwell.autotext.MainActivity;
 
 /**
  * @author Daniel
@@ -21,25 +22,33 @@ import edu.usc.danielcantwell.autotext.MainActivity;
 
 public class SendMessage extends Service {
 	
-	int serviceCount = MainActivity.serviceCount;
+	int serviceCount;
 	
 	// Get the Phone Number and Message from the main activity
-	String phoneNo = MainActivity.phoneNo;
-	String message = MainActivity.message;;
+	String phoneNo;
+	String message;
 	
 
 	@Override // When this Service is first called
 	public void onCreate() {
-		//Toast.makeText(this, "Send Message Activity", Toast.LENGTH_SHORT).show();
+		Log.d("Daniel Cantwell", "Send Message Service Created");
 	}
 
 	@Override // Each time this Service is called
 	public int onStartCommand(Intent intent, int flags, int startId) {
+		
+		Log.d("Daniel Cantwell", "Send Message Service Started");
 
-		//Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
+		Bundle extras = intent.getExtras();
+		
+		if (extras != null) {
+			serviceCount = extras.getInt("serviceNumber");
+			phoneNo = extras.getString("phoneNumber");
+			message = extras.getString("textMessage");
+		}
 
 		// Send the message
-		sendSMS(phoneNo, message);
+		sendSMS(phoneNo, message, serviceCount);
 
 		// Stop Service after the message is sent
 		stopSelf();
@@ -47,7 +56,9 @@ public class SendMessage extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	private void sendSMS(String phoneNumber, String message) {
+	private void sendSMS(String phoneNumber, String message, int serviceCount) {
+		
+		Log.d("Daniel Cantwell", "Message Sent");
 		
 		// Create a PendingIntent for SmsManager
 		PendingIntent pi = PendingIntent.getActivity(this, serviceCount,
